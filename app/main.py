@@ -36,4 +36,8 @@ def obter_tarefa(id: int):
         raise HTTPException(status_code=404, detail="Tarefa nao encontrada")
     return _tarefas[id]
 
-# TODO: implemente GET /tarefas e PUT /tarefas/{id}
+@app.get("/tarefas")
+def listar_tarefas():
+    return list(_tarefas.values())
+
+# TODO: implemente PUT /tarefas/{id}
