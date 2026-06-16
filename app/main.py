@@ -40,4 +40,10 @@ def obter_tarefa(id: int):
 def listar_tarefas():
     return list(_tarefas.values())
 
-# TODO: implemente PUT /tarefas/{id}
+@app.put("/tarefas/{id}")
+def atualizar_tarefa(id: int, tarefa: TarefaUpdate):
+    if id not in _tarefas:
+        raise HTTPException(status_code=404, detail="Tarefa nao encontrada")
+    atualizada = {"id": id, "titulo": tarefa.titulo, "concluida": tarefa.concluida}
+    _tarefas[id] = atualizada
+    return atualizada
