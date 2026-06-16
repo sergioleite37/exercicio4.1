@@ -30,5 +30,20 @@ def criar(tarefa: TarefaIn):
     _proximo_id += 1
     return nova
 
-# TODO: implemente GET /tarefas/{id}, GET /tarefas e PUT /tarefas/{id}
-# seguindo o contrato da secao 3. Lembre do 404 quando o id nao existir.
+@app.get("/tarefas/{id}")
+def obter_tarefa(id: int):
+    if id not in _tarefas:
+        raise HTTPException(status_code=404, detail="Tarefa nao encontrada")
+    return _tarefas[id]
+
+@app.get("/tarefas")
+def listar_tarefas():
+    return list(_tarefas.values())
+
+@app.put("/tarefas/{id}")
+def atualizar_tarefa(id: int, tarefa: TarefaUpdate):
+    if id not in _tarefas:
+        raise HTTPException(status_code=404, detail="Tarefa nao encontrada")
+    atualizada = {"id": id, "titulo": tarefa.titulo, "concluida": tarefa.concluida}
+    _tarefas[id] = atualizada
+    return atualizada
